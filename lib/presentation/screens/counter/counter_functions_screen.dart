@@ -13,17 +13,7 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('Counter Functions'),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.refresh_rounded),
-              onPressed: () {
-                setState(() {
-                  clickCounter = 0;
-                });
-              },
-            ),
-          ],
+          title: const Center(child: Text('Counter Functions')),
         ),
         body: Center(
           child: Column(
@@ -41,14 +31,36 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
             ],
           ),
         ),
-        floatingActionButton: const Column(
+        floatingActionButton: Column(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
-            CustomButton(icon: Icons.refresh_outlined),
-            SizedBox(height: 10),
-            CustomButton(icon: Icons.plus_one_outlined),
-            SizedBox(height: 10),
-            CustomButton(icon: Icons.exposure_minus_1_outlined),
+            CustomButton(
+              icon: Icons.refresh_outlined,
+              onPressed: () {
+                setState(() {
+                  clickCounter = 0;
+                });
+              },
+            ),
+            const SizedBox(height: 10),
+            CustomButton(
+              icon: Icons.plus_one_outlined,
+              onPressed: () {
+                setState(() {
+                  clickCounter++;
+                });
+              },
+            ),
+            const SizedBox(height: 10),
+            CustomButton(
+              icon: Icons.exposure_minus_1_outlined,
+              onPressed: () {
+                setState(() {
+                  if (clickCounter == 0) return;
+                  clickCounter--;
+                });
+              },
+            ),
           ],
         ));
   }
@@ -56,17 +68,18 @@ class _CounterFunctionsScreenState extends State<CounterFunctionsScreen> {
 
 class CustomButton extends StatelessWidget {
   final IconData icon;
+  final VoidCallback? onPressed;
 
   const CustomButton({
     super.key,
     required this.icon,
+    this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
     return FloatingActionButton(
-      onPressed: () {
-      },
+      onPressed: onPressed,
       child: Icon(icon),
     );
   }
